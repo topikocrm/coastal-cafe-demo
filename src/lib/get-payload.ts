@@ -12,8 +12,9 @@ interface Args {
 }
 
 export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payload> => {
-  if (!process.env.DATABASE_URL) {
-    throw new Error('DATABASE_URL environment variable is missing')
+  // Skip PayloadCMS initialization during build if no real database URL
+  if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('localhost')) {
+    throw new Error('Database not configured for build environment')
   }
 
   if (cached.client) {
