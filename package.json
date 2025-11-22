@@ -7,21 +7,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "payload": "payload",
-    "generate:types": "payload generate:types"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@payloadcms/bundler-webpack": "^1.0.9",
-    "@payloadcms/db-postgres": "^0.8.10",
-    "@payloadcms/richtext-slate": "^1.5.2",
-    "@supabase/supabase-js": "^2.45.0",
     "@topiko/theme-core": "file:../packages/theme-core",
     "@topiko/ui-blocks": "file:../packages/ui-blocks",
     "autoprefixer": "^10.4.16",
     "dotenv": "^16.3.1",
     "next": "^14.0.0",
-    "payload": "^2.30.0",
     "postcss": "^8.4.32",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

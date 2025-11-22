@@ -27,20 +27,7 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="font-semibold text-gray-800 mb-2">🧪 Test Interface</h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Use the test page to view and seed CMS data
-              </p>
-              <a 
-                href="/test" 
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm"
-              >
-                Test CMS Integration
-              </a>
-            </div>
-
+          <div className="grid md:grid-cols-2 gap-4 mb-8">
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="font-semibold text-gray-800 mb-2">🌊 Website</h3>
               <p className="text-gray-600 text-sm mb-4">
@@ -55,28 +42,25 @@ export default function AdminPage() {
             </div>
 
             <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="font-semibold text-gray-800 mb-2">📡 API Status</h3>
+              <h3 className="font-semibold text-gray-800 mb-2">🔧 Development</h3>
               <p className="text-gray-600 text-sm mb-4">
-                Check database and API connectivity
+                CMS functionality temporarily disabled for deployment
               </p>
-              <a 
-                href="/api/status" 
-                className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 text-sm"
-              >
-                Check Status
-              </a>
+              <div className="bg-gray-300 text-gray-600 px-4 py-2 rounded text-sm cursor-not-allowed">
+                CMS Coming Soon
+              </div>
             </div>
           </div>
 
           <div className="text-sm text-gray-500">
             <p className="mb-2">
-              <strong>Database:</strong> Connected to Supabase PostgreSQL ✅
+              <strong>Status:</strong> Static website deployed successfully ✅
             </p>
             <p className="mb-2">
-              <strong>Collections:</strong> Hero, Menu, Features, Contact, Site Settings
+              <strong>CMS:</strong> Temporarily disabled for build compatibility
             </p>
             <p>
-              <strong>API Endpoints:</strong> All functional and ready for content management
+              <strong>Next Steps:</strong> CMS will be re-enabled after successful deployment
             </p>
           </div>
         </div>
