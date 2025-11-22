@@ -1,133 +1,99 @@
-import HeroSection from '../components/HeroSection'
-import FeaturesSection from '../components/FeaturesSection'
-import MenuSection from '../components/MenuSection'
-import ContactSection from '../components/ContactSection'
-import Navigation from '../components/Navigation'
-import Footer from '../components/Footer'
-
-// Type definitions for our CMS content
-interface HeroContent {
-  id: string
-  title: string
-  subtitle: string
-  ctaText: string
-  ctaUrl: string
-  backgroundImage?: {
-    url: string
-    alt: string
-  }
-}
-
-interface MenuItem {
-  id: string
-  name: string
-  description: string
-  price: number
-  category: string
-  dietary: string[]
-  available: boolean
-  featured: boolean
-  image?: {
-    url: string
-    alt: string
-  }
-}
-
-interface Feature {
-  id: string
-  title: string
-  description: string
-  icon: string
-  order: number
-}
-
-interface ContactInfo {
-  id: string
-  phone: string
-  email: string
-  address: string
-  hours: string
-  mapUrl?: string
-}
-
-interface SiteSettings {
-  siteName: string
-  tagline: string
-  logo?: {
-    url: string
-    alt: string
-  }
-  socialMedia: {
-    facebook?: string
-    instagram?: string
-    twitter?: string
-  }
-}
-
-async function getContentFromCMS() {
-  // Return static content for now - will add CMS back after successful build
-  return getFallbackContent()
-}
-
-function getFallbackContent() {
-  return {
-    hero: {
-      id: 'fallback',
-      title: 'Coastal Café & Bistro',
-      subtitle: 'Fresh seafood, ocean views, and locally roasted coffee',
-      ctaText: 'Reserve Table',
-      ctaUrl: '#contact',
-    },
-    menu: [],
-    features: [],
-    contact: {
-      id: 'fallback',
-      phone: '(555) 123-WAVE',
-      email: 'hello@coastalcafe.com',
-      address: '123 Ocean View Drive\nSeaside, CA 93955',
-      hours: 'Mon-Thu: 7am-9pm\nFri-Sat: 7am-10pm\nSun: 8am-8pm',
-    },
-    siteSettings: {
-      siteName: 'Coastal Café & Bistro',
-      tagline: 'Where ocean meets cuisine',
-      socialMedia: {},
-    },
-  }
-}
-
-// Static page for now
-
-export default async function HomePage() {
-  const { hero, menu, features, contact, siteSettings } = await getContentFromCMS()
-
+export default function HomePage() {
   return (
-    <main className="min-h-screen">
-      <Navigation siteSettings={siteSettings} />
-      
-      <HeroSection hero={hero} />
-      
-      {features.length > 0 && (
-        <FeaturesSection features={features} />
-      )}
-      
-      {menu.length > 0 && (
-        <MenuSection menu={menu} />
-      )}
-      
-      <ContactSection contact={contact} />
-      
-      <Footer siteSettings={siteSettings} contactInfo={contact} />
-      
-      {/* CMS Admin Link (for demo purposes) */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <a 
-          href="/admin" 
-          target="_blank"
-          className="btn-primary text-sm shadow-lg"
-        >
-          🏗️ Edit Content
-        </a>
-      </div>
+    <main>
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="container">
+          <h1>Coastal Café & Bistro</h1>
+          <p>Fresh seafood, ocean views, and locally roasted coffee</p>
+          <a href="#contact" className="btn">Reserve Table</a>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="features">
+        <div className="container">
+          <h2>Why Choose Coastal Café?</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">🌊</div>
+              <h3>Ocean Views</h3>
+              <p>Breathtaking panoramic views of the Pacific Ocean from every table</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">🦞</div>
+              <h3>Fresh Seafood</h3>
+              <p>Daily catch from local fishermen, prepared by our expert chefs</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">☕</div>
+              <h3>Local Coffee</h3>
+              <p>Artisanally roasted beans from nearby coastal coffee farms</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Menu Section */}
+      <section className="menu">
+        <div className="container">
+          <h2>Featured Menu</h2>
+          <div className="menu-grid">
+            <div className="menu-item">
+              <h4>Grilled Pacific Salmon</h4>
+              <span className="price">$28</span>
+              <p>Fresh Atlantic salmon with lemon herb butter and seasonal vegetables</p>
+            </div>
+            <div className="menu-item">
+              <h4>Seafood Chowder</h4>
+              <span className="price">$16</span>
+              <p>Creamy chowder loaded with clams, mussels, and fresh fish</p>
+            </div>
+            <div className="menu-item">
+              <h4>Fish & Chips</h4>
+              <span className="price">$22</span>
+              <p>Beer-battered cod with crispy fries and house-made tartar sauce</p>
+            </div>
+            <div className="menu-item">
+              <h4>Lobster Roll</h4>
+              <span className="price">$32</span>
+              <p>Fresh lobster meat in a toasted brioche roll with lemon aioli</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="contact" id="contact">
+        <div className="container">
+          <h2>Visit Us</h2>
+          <div className="contact-grid">
+            <div className="contact-item">
+              <h4>📍 Location</h4>
+              <p>123 Ocean View Drive<br />Seaside, CA 93955</p>
+            </div>
+            <div className="contact-item">
+              <h4>📞 Phone</h4>
+              <p>(555) 123-WAVE</p>
+            </div>
+            <div className="contact-item">
+              <h4>📧 Email</h4>
+              <p>hello@coastalcafe.com</p>
+            </div>
+            <div className="contact-item">
+              <h4>🕒 Hours</h4>
+              <p>Mon-Thu: 7am-9pm<br />Fri-Sat: 7am-10pm<br />Sun: 8am-8pm</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container">
+          <p>&copy; 2024 Coastal Café & Bistro. Where ocean meets cuisine.</p>
+        </div>
+      </footer>
     </main>
   )
 }

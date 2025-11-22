@@ -1,16 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: [
-    '@topiko/theme-core', 
-    '@topiko/ui-blocks'
-  ],
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-};
+  output: 'standalone'
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
