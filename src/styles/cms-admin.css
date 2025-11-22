@@ -1,0 +1,164 @@
+/* Coastal Café CMS Admin Styles */
+
+:root {
+  --coastal-primary: #1e40af;
+  --coastal-secondary: #fbbf24;
+  --coastal-accent: #059669;
+  --coastal-bg: #f0f9ff;
+}
+
+/* Custom branding for PayloadCMS admin */
+.payload-admin__header {
+  background: linear-gradient(135deg, var(--coastal-primary) 0%, var(--coastal-accent) 100%);
+}
+
+.payload-admin__nav {
+  background: var(--coastal-bg);
+}
+
+/* Collection group styling */
+.nav__collection-group {
+  border-left: 3px solid var(--coastal-accent);
+  padding-left: 12px;
+  margin-left: 8px;
+}
+
+/* Button styling */
+.btn--style-primary {
+  background: var(--coastal-primary);
+  border-color: var(--coastal-primary);
+}
+
+.btn--style-primary:hover {
+  background: var(--coastal-accent);
+  border-color: var(--coastal-accent);
+}
+
+/* Form field focus states */
+.field-type--text input:focus,
+.field-type--textarea textarea:focus,
+.field-type--email input:focus,
+.field-type--number input:focus {
+  border-color: var(--coastal-accent);
+  box-shadow: 0 0 0 1px var(--coastal-accent);
+}
+
+/* Collection list headers */
+.collection-list__header {
+  background: var(--coastal-bg);
+  border-bottom: 2px solid var(--coastal-primary);
+}
+
+/* Dashboard styling */
+.dashboard__overview {
+  background: linear-gradient(135deg, var(--coastal-primary)10 0%, var(--coastal-accent)10 100%);
+}
+
+/* Custom icons for collections */
+.nav__collection[href*="coastal-cafe-hero"]:before {
+  content: "🌊";
+  margin-right: 8px;
+}
+
+.nav__collection[href*="coastal-cafe-menu"]:before {
+  content: "🍽️";
+  margin-right: 8px;
+}
+
+.nav__collection[href*="coastal-cafe-features"]:before {
+  content: "⭐";
+  margin-right: 8px;
+}
+
+.nav__collection[href*="coastal-cafe-contact"]:before {
+  content: "📞";
+  margin-right: 8px;
+}
+
+.nav__collection[href*="media"]:before {
+  content: "📸";
+  margin-right: 8px;
+}
+
+/* Success messages */
+.payload-admin__toast--success {
+  background: var(--coastal-accent);
+}
+
+/* Document tabs */
+.doc-tabs__tab--active {
+  border-bottom-color: var(--coastal-accent);
+  color: var(--coastal-primary);
+}
+
+/* Status indicators */
+.status-indicator--published {
+  background-color: var(--coastal-accent);
+}
+
+.status-indicator--draft {
+  background-color: var(--coastal-secondary);
+}
+
+/* Custom table styling */
+.collection-list table {
+  border-collapse: collapse;
+}
+
+.collection-list th {
+  background: var(--coastal-bg);
+  color: var(--coastal-primary);
+  font-weight: 600;
+}
+
+.collection-list tr:hover {
+  background: var(--coastal-bg)50;
+}
+
+/* Rich text editor */
+.rich-text-editor {
+  border: 1px solid var(--coastal-primary)30;
+}
+
+.rich-text-editor:focus-within {
+  border-color: var(--coastal-accent);
+  box-shadow: 0 0 0 1px var(--coastal-accent);
+}
+
+/* Upload field styling */
+.upload__drag-and-drop {
+  border: 2px dashed var(--coastal-primary)50;
+  background: var(--coastal-bg)30;
+}
+
+.upload__drag-and-drop:hover {
+  border-color: var(--coastal-accent);
+  background: var(--coastal-bg);
+}
+
+/* Dashboard welcome message */
+.dashboard__welcome {
+  background: linear-gradient(135deg, var(--coastal-primary) 0%, var(--coastal-accent) 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--coastal-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--coastal-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--coastal-accent);
+}
