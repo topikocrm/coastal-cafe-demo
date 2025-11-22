@@ -1,5 +1,8 @@
 import { Metadata } from 'next'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 // PayloadCMS Admin Interface
 export default function AdminPage() {
   return (

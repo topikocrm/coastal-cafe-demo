@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
   transpilePackages: [
     '@topiko/theme-core',
     '@topiko/ui-blocks'
@@ -19,10 +20,10 @@ const nextConfig = {
       'drizzle-orm',
     ],
   },
-  env: {
-    SKIP_BUILD_STATIC_GENERATION: 'true',
-  },
-  webpack: (config, { isServer, dev, buildId }) => {
+  // Force all routes to be dynamic
+  trailingSlash: false,
+  generateStaticParams: false,
+  webpack: (config, { isServer, dev }) => {
     // Prevent PayloadCMS from loading during build
     if (isServer && !dev) {
       config.resolve.alias = {
