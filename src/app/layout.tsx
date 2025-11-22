@@ -26,8 +26,7 @@ export const metadata: Metadata = {
   },
 }
 
-// Force all pages to be dynamic to prevent build-time CMS issues
-export const dynamic = 'force-dynamic'
+// Static layout for now
 
 export default function RootLayout({
   children,

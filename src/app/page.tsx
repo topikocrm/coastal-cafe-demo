@@ -65,34 +65,7 @@ interface SiteSettings {
 }
 
 async function getContentFromCMS() {
-  // Try to load real CMS content at runtime
-  if (typeof window === 'undefined' && process.env.DATABASE_URL) {
-    try {
-      const { getPayloadClient } = await import('../lib/get-payload')
-      const payload = await getPayloadClient()
-
-      // Fetch real content from CMS
-      const [heroData, menuData, featuresData, contactData, siteSettings] = await Promise.all([
-        payload.find({ collection: 'coastal-cafe-hero', limit: 1 }),
-        payload.find({ collection: 'coastal-cafe-menu', limit: 50, where: { available: { equals: true } }, sort: 'category' }),
-        payload.find({ collection: 'coastal-cafe-features', limit: 10, sort: 'order' }),
-        payload.find({ collection: 'coastal-cafe-contact', limit: 1 }),
-        payload.findGlobal({ slug: 'site-settings' }),
-      ])
-
-      return {
-        hero: heroData.docs[0] || getFallbackContent().hero,
-        menu: menuData.docs || [],
-        features: featuresData.docs || [],
-        contact: contactData.docs[0] || getFallbackContent().contact,
-        siteSettings: siteSettings || getFallbackContent().siteSettings,
-      }
-    } catch (error) {
-      console.error('CMS Error:', error)
-    }
-  }
-  
-  // Return fallback content if CMS fails or during build
+  // Return static content for now - will add CMS back after successful build
   return getFallbackContent()
 }
 
@@ -122,8 +95,7 @@ function getFallbackContent() {
   }
 }
 
-// Force dynamic rendering to enable CMS functionality
-export const dynamic = 'force-dynamic'
+// Static page for now
 
 export default async function HomePage() {
   const { hero, menu, features, contact, siteSettings } = await getContentFromCMS()
