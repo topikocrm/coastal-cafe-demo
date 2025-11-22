@@ -344,7 +344,7 @@ export default buildConfig({
   editor: slateEditor({}),
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL,
+      connectionString: process.env.DATABASE_URL || 'postgresql://localhost:5432/coastal_cafe_build',
     },
   }),
   typescript: {

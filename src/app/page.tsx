@@ -1,4 +1,3 @@
-import { getPayloadClient } from '../lib/get-payload'
 import HeroSection from '../components/HeroSection'
 import FeaturesSection from '../components/FeaturesSection'
 import MenuSection from '../components/MenuSection'
@@ -66,75 +65,65 @@ interface SiteSettings {
 }
 
 async function getContentFromCMS() {
-  try {
-    const payload = await getPayloadClient()
+  // Try to load real CMS content at runtime
+  if (typeof window === 'undefined' && process.env.DATABASE_URL) {
+    try {
+      const { getPayloadClient } = await import('../lib/get-payload')
+      const payload = await getPayloadClient()
 
-    // Fetch all content in parallel
-    const [heroData, menuData, featuresData, contactData, siteSettings] = await Promise.all([
-      payload.find({
-        collection: 'coastal-cafe-hero',
-        limit: 1,
-      }),
-      payload.find({
-        collection: 'coastal-cafe-menu',
-        limit: 50,
-        where: {
-          available: {
-            equals: true,
-          },
-        },
-        sort: 'category',
-      }),
-      payload.find({
-        collection: 'coastal-cafe-features',
-        limit: 10,
-        sort: 'order',
-      }),
-      payload.find({
-        collection: 'coastal-cafe-contact',
-        limit: 1,
-      }),
-      payload.findGlobal({
-        slug: 'site-settings',
-      }),
-    ])
+      // Fetch real content from CMS
+      const [heroData, menuData, featuresData, contactData, siteSettings] = await Promise.all([
+        payload.find({ collection: 'coastal-cafe-hero', limit: 1 }),
+        payload.find({ collection: 'coastal-cafe-menu', limit: 50, where: { available: { equals: true } }, sort: 'category' }),
+        payload.find({ collection: 'coastal-cafe-features', limit: 10, sort: 'order' }),
+        payload.find({ collection: 'coastal-cafe-contact', limit: 1 }),
+        payload.findGlobal({ slug: 'site-settings' }),
+      ])
 
-    return {
-      hero: heroData.docs[0] as HeroContent,
-      menu: menuData.docs as MenuItem[],
-      features: featuresData.docs as Feature[],
-      contact: contactData.docs[0] as ContactInfo,
-      siteSettings: siteSettings as SiteSettings,
-    }
-  } catch (error) {
-    console.error('Failed to fetch CMS content:', error)
-    
-    // Return fallback content if CMS fails
-    return {
-      hero: {
-        id: 'fallback',
-        title: 'Coastal Café & Bistro',
-        subtitle: 'Fresh seafood, ocean views, and locally roasted coffee',
-        ctaText: 'Reserve Table',
-        ctaUrl: '#contact',
-      },
-      menu: [],
-      features: [],
-      contact: {
-        id: 'fallback',
-        phone: '(555) 123-WAVE',
-        email: 'hello@coastalcafe.com',
-        address: '123 Ocean View Drive\\nSeaside, CA 93955',
-        hours: 'Mon-Thu: 7am-9pm\\nFri-Sat: 7am-10pm\\nSun: 8am-8pm',
-      },
-      siteSettings: {
-        siteName: 'Coastal Café & Bistro',
-        tagline: 'Where ocean meets cuisine',
-        socialMedia: {},
-      },
+      return {
+        hero: heroData.docs[0] || getFallbackContent().hero,
+        menu: menuData.docs || [],
+        features: featuresData.docs || [],
+        contact: contactData.docs[0] || getFallbackContent().contact,
+        siteSettings: siteSettings || getFallbackContent().siteSettings,
+      }
+    } catch (error) {
+      console.error('CMS Error:', error)
     }
   }
+  
+  // Return fallback content if CMS fails or during build
+  return getFallbackContent()
 }
+
+function getFallbackContent() {
+  return {
+    hero: {
+      id: 'fallback',
+      title: 'Coastal Café & Bistro',
+      subtitle: 'Fresh seafood, ocean views, and locally roasted coffee',
+      ctaText: 'Reserve Table',
+      ctaUrl: '#contact',
+    },
+    menu: [],
+    features: [],
+    contact: {
+      id: 'fallback',
+      phone: '(555) 123-WAVE',
+      email: 'hello@coastalcafe.com',
+      address: '123 Ocean View Drive\nSeaside, CA 93955',
+      hours: 'Mon-Thu: 7am-9pm\nFri-Sat: 7am-10pm\nSun: 8am-8pm',
+    },
+    siteSettings: {
+      siteName: 'Coastal Café & Bistro',
+      tagline: 'Where ocean meets cuisine',
+      socialMedia: {},
+    },
+  }
+}
+
+// Force dynamic rendering to enable CMS functionality
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const { hero, menu, features, contact, siteSettings } = await getContentFromCMS()

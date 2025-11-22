@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server'
-import { getPayloadClient } from '../../../../lib/get-payload'
 
 // PayloadCMS API route handler
 export async function GET(
@@ -10,6 +9,7 @@ export async function GET(
   const searchParams = req.nextUrl.searchParams
   
   try {
+    const { getPayloadClient } = await import('../../../../lib/get-payload')
     const payload = await getPayloadClient()
     
     // Handle different API endpoints
@@ -62,6 +62,7 @@ export async function POST(
   const { slug } = params
   
   try {
+    const { getPayloadClient } = await import('../../../../lib/get-payload')
     const payload = await getPayloadClient()
     const body = await req.json()
     
@@ -90,6 +91,7 @@ export async function PATCH(
   const { slug } = params
   
   try {
+    const { getPayloadClient } = await import('../../../../lib/get-payload')
     const payload = await getPayloadClient()
     const body = await req.json()
     

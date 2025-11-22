@@ -1,5 +1,4 @@
-import payload, { Payload } from 'payload'
-import config from '../../payload.config'
+import { Payload } from 'payload'
 
 let cached = (global as any).payload
 
@@ -8,23 +7,22 @@ if (!cached) {
 }
 
 interface Args {
-  initOptions?: Parameters<typeof payload.init>[0]
+  initOptions?: any
 }
 
 export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payload> => {
-  // Skip PayloadCMS initialization during build time completely
-  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_RUNTIME) {
-    throw new Error('Database not available during build time')
-  }
-
   if (cached.client) {
     return cached.client
   }
 
   if (!cached.promise) {
-    cached.promise = payload.init({
+    // Dynamic import to prevent build-time initialization
+    const payload = await import('payload')
+    const config = await import('../../payload.config')
+    
+    cached.promise = payload.default.init({
       secret: process.env.PAYLOAD_SECRET || 'coastal-cafe-secret-2024',
-      config,
+      config: config.default,
       ...initOptions,
     })
   }

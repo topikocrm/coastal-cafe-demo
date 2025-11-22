@@ -1,8 +1,8 @@
-import { getPayloadClient } from '../../../lib/get-payload'
 import { NextResponse } from 'next/server'
 
 export async function POST() {
   try {
+    const { getPayloadClient } = await import('../../../lib/get-payload')
     const payload = await getPayloadClient()
 
     // Seed Hero Content

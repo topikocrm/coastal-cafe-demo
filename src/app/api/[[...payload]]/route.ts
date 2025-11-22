@@ -1,4 +1,3 @@
-import { getPayloadClient } from '../../../lib/get-payload'
 import { NextRequest, NextResponse } from 'next/server'
 
 // This is the main API route that handles all PayloadCMS requests
@@ -10,6 +9,7 @@ export async function GET(
   const route = params.payload?.join('/') || ''
   
   try {
+    const { getPayloadClient } = await import('../../../lib/get-payload')
     const payload = await getPayloadClient()
     
     switch (route) {
@@ -100,6 +100,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { payload: string[] } }
 ) {
+  const { getPayloadClient } = await import('../../../lib/get-payload')
   const payload = await getPayloadClient()
   const route = params.payload?.join('/') || ''
   
