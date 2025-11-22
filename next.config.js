@@ -6,11 +6,9 @@ const nextConfig = {
     '@topiko/ui-blocks'
   ],
   typescript: {
-    // Temporarily ignore TypeScript errors for PayloadCMS configuration
     ignoreBuildErrors: true,
   },
   eslint: {
-    // Temporarily ignore ESLint errors during build
     ignoreDuringBuilds: true,
   },
   experimental: {
@@ -21,7 +19,19 @@ const nextConfig = {
       'drizzle-orm',
     ],
   },
-  webpack: (config, { isServer }) => {
+  env: {
+    SKIP_BUILD_STATIC_GENERATION: 'true',
+  },
+  webpack: (config, { isServer, dev, buildId }) => {
+    // Prevent PayloadCMS from loading during build
+    if (isServer && !dev) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'payload': false,
+        '@payloadcms/db-postgres': false,
+      }
+    }
+    
     if (isServer) {
       config.externals = [
         ...(config.externals || []), 
