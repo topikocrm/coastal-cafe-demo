@@ -12,9 +12,9 @@ interface Args {
 }
 
 export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payload> => {
-  // Skip PayloadCMS initialization during build if no real database URL
-  if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('localhost')) {
-    throw new Error('Database not configured for build environment')
+  // Skip PayloadCMS initialization during build time completely
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_RUNTIME) {
+    throw new Error('Database not available during build time')
   }
 
   if (cached.client) {
