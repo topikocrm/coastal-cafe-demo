@@ -6,13 +6,12 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { payload: string[] } }
 ) {
-  const payload = await getPayloadClient()
-  const { searchParams } = new URL(request.url)
-  
   // Handle different API endpoints
   const route = params.payload?.join('/') || ''
   
   try {
+    const payload = await getPayloadClient()
+    
     switch (route) {
       case 'collections/coastal-cafe-hero':
         const heroData = await payload.find({
@@ -63,10 +62,37 @@ export async function GET(
     }
   } catch (error) {
     console.error('PayloadCMS API Error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    
+    // Return fallback data when database is not available
+    const fallbackData = {
+      'collections/coastal-cafe-hero': {
+        docs: [{
+          id: 'fallback',
+          title: 'Coastal Café & Bistro',
+          subtitle: 'Fresh seafood, ocean views, and locally roasted coffee',
+          ctaText: 'Reserve Table',
+          ctaUrl: '#contact',
+        }]
+      },
+      'collections/coastal-cafe-menu': { docs: [] },
+      'collections/coastal-cafe-features': { docs: [] },
+      'collections/coastal-cafe-contact': {
+        docs: [{
+          id: 'fallback',
+          phone: '(555) 123-WAVE',
+          email: 'hello@coastalcafe.com',
+          address: '123 Ocean View Drive\nSeaside, CA 93955',
+          hours: 'Mon-Thu: 7am-9pm\nFri-Sat: 7am-10pm\nSun: 8am-8pm',
+        }]
+      },
+      'globals/site-settings': {
+        siteName: 'Coastal Café & Bistro',
+        tagline: 'Where ocean meets cuisine',
+        socialMedia: {},
+      }
+    }
+    
+    return NextResponse.json(fallbackData[route] || { docs: [], error: 'Database not configured' })
   }
 }
 

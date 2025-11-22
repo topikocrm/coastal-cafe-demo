@@ -38,21 +38,29 @@ export async function GET() {
     })
   } catch (error) {
     console.error('Status check error:', error)
-    return NextResponse.json(
-      {
-        status: 'error',
-        timestamp: new Date().toISOString(),
-        database: {
-          connected: false,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
-        environment: {
-          nodeEnv: process.env.NODE_ENV,
-          hasDatabase: !!process.env.DATABASE_URL,
-          hasPayloadSecret: !!process.env.PAYLOAD_SECRET,
-        },
+    return NextResponse.json({
+      status: 'demo_mode',
+      timestamp: new Date().toISOString(),
+      database: {
+        connected: false,
+        message: 'Running in demo mode with fallback content',
+        error: error instanceof Error ? error.message : 'Database not configured',
       },
-      { status: 500 }
-    )
+      collections: {
+        'coastal-cafe-hero': 'fallback',
+        'coastal-cafe-menu': 'fallback', 
+        'coastal-cafe-features': 'fallback',
+        'coastal-cafe-contact': 'fallback',
+      },
+      environment: {
+        nodeEnv: process.env.NODE_ENV,
+        hasDatabase: !!process.env.DATABASE_URL,
+        hasPayloadSecret: !!process.env.PAYLOAD_SECRET,
+      },
+      setup: {
+        message: 'To enable full CMS functionality, connect a Supabase PostgreSQL database',
+        instructions: 'See DEPLOYMENT.md for setup instructions'
+      }
+    })
   }
 }
